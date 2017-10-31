@@ -1,16 +1,17 @@
-# -*- coding: utf-8 -*-
-#title           :ebcdic.py
-#description     :Class responsavel por manter todos os metódos de manipulação de arquivos EBCDIC
-#author          :Humbertho Mattar
-#date            :26/07/2017
-#version         :0.1
-#usage           :see readme.md
-#notes           :see readme.md
-#python_version  :2.7.6
-#=======================================================================
+# title           :ebcdic.py
+# description     :Class responsavel por manter todos os metodos de manipulacao
+# de arquivos EBCDIC
+# author          :Humbertho Mattar
+# date            :26/07/2017
+# version         :0.1
+# usage           :see readme.md
+# notes           :see readme.md
+# python_version  :2.7.6
+# =======================================================================
+
 from __future__ import with_statement
 from tqdm import tqdm
-import sys, os
+import os
 from contextlib import nested
 
 
@@ -28,13 +29,16 @@ class Ebcdic(object):
         else:
             total_bar = (pos_fim - pos_ini) * self.block_file
 
-        with tqdm(total=total_bar, ncols=150,
-                    ascii=True, desc=">>>> Convertendo arquivo") as pbar:
+        with tqdm(total=total_bar,
+                  ncols=150, ascii=True,
+                  desc=">>>> Convertendo arquivo") as pbar:
             file_out = self.file_in + "_ASCII.txt"
-            with nested(open(self.file_in, 'rb'), open(file_out, 'wb')) as (infile, outfile):
-                while pos_ini < pos_fim :
+            with nested(open(self.file_in, 'rb'), open(file_out, 'wb\
+            ')) as (infile, outfile):
+                while pos_ini < pos_fim:
                     buffer = infile.read(self.block_file)
-                    outfile.write(buffer.decode('cp500').encode('latin1')+'$\n')
+                    outfile.write(buffer.decode('cp500').encode(
+                                                               'latin1')+'$\n')
                     pbar.update(self.block_file)
                     pos_ini += 1
         return
@@ -47,12 +51,13 @@ class Ebcdic(object):
     def find(self, fstring):
         total_lines = 0
         ocorrencias = {}
-        with tqdm(total=os.stat(self.file_in).st_size, ncols=150,
-                    ascii=True, desc=">>>> Pesquisando") as pbar:
+        with tqdm(total=os.stat(self.file_in).st_size,
+                  ncols=150, ascii=True, esc=">>>> Pesquisando") as pbar:
             print('\n')
             with open(self.file_in, 'rb') as infile:
-                while True :
-                    buffer = infile.read(self.block_file).decode('cp500').encode('latin1')
+                while True:
+                    buffer = infile.read(self.block_file).decode(
+                                                      'cp500').encode('latin1')
                     if not buffer:
                         pbar.close()
                         break
@@ -69,7 +74,8 @@ class Ebcdic(object):
         with open(self.file_in, 'rb') as infile:
             infile.seek(block_point)
             while pos_ini <= pos_fim:
-                buffer = infile.read(self.block_file).decode('cp500').encode('latin1')
+                buffer = infile.read(self.block_file).decode('cp500').encode(
+                                                                      'latin1')
                 registros.append(buffer)
                 pos_ini += 1
         return registros
@@ -78,19 +84,22 @@ class Ebcdic(object):
     def head(self, head_range=10):
         registros = []
         with open(self.file_in, 'rb') as infile:
-            for i in range(head_range) :
-                buffer = infile.read(self.block_file).decode('cp500').encode('latin1')
+            for i in range(head_range):
+                buffer = infile.read(self.block_file).decode('cp500').encode(
+                                                                      'latin1')
                 registros.append(buffer)
         return registros
 
     # retorna uma lista com os ultimos registros (10 default)
     def tail(self, tail_range=10):
         registros = []
-        block_point = int(os.stat(self.file_in).st_size) - (self.block_file * tail_range)
+        block_point = int(os.stat(self.file_in).st_size)
+        block_point -= (self.block_file * tail_range)
         with open(self.file_in, 'rb') as infile:
             infile.seek(block_point)
-            while True :
-                buffer = infile.read(self.block_file).decode('cp500').encode('latin1')
+            while True:
+                buffer = infile.read(self.block_file).decode('cp500').encode(
+                                                                      'latin1')
                 if not buffer:
                     break
                 registros.append(buffer)
