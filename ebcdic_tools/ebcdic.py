@@ -11,8 +11,8 @@
 
 from __future__ import with_statement
 from tqdm import tqdm
-import os
 from contextlib import nested
+import os
 
 
 class Ebcdic(object):
