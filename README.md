@@ -1,7 +1,7 @@
 
-# EBCIDC Tools
+# EBCDIC Tools
 
-An initial EBCIDC class to manipulate large files.
+An initial EBCDIC class to manipulate large files.
 
 #### Status: [![Build Status](https://travis-ci.org/humberthomattar/ebcdic.tools.svg?branch=master)](https://travis-ci.org/humberthomattar/ebcdic.tools)
 
